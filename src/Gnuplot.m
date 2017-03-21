@@ -14,6 +14,9 @@ classdef Gnuplot < handle
 
     % Titles
     s_titles;
+
+    % X Range
+    s_x_range;
   end
 
   methods (Access = private)
@@ -28,7 +31,9 @@ classdef Gnuplot < handle
         fmt = '%.4f';
         for i = 1:(cols - 1)
           fmt = [fmt, ' %10.4f'];
-          obj.s_titles{i} = [obj.s_input_name, '(', num2str(i), ', :', ')'];
+          obj.s_titles{i} = ['using 1:', num2str(i+1), ' ', ...
+                             'title "', obj.s_input_name, '(', num2str(i), ', :', ...
+                             ')" '];
         end
         fmt = [fmt, '\n'];
 
@@ -63,12 +68,19 @@ classdef Gnuplot < handle
         commands = [commands, {sprintf('set key %s', key_string)}];
       end
 
-      % Input
-      plotting = sprintf('plot %s', processed_input);
-      for title = obj.s_titles
-        plotting = [plotting, ' title "', title{:}, '"'];
+      % X Range
+      x_range = obj.getXRange();
+      if ~isempty(x_range)
+        commands = [commands, {sprintf('set xrange %s', x_range)}];
       end
-      commands = [commands, {plotting}];
+
+      % Input
+      plotting = 'plot ';
+      for title = obj.s_titles
+        plotting = [plotting, processed_input, ' ', title{:}, ...
+                   ' with lines, '];
+      end
+      commands = [commands, {plotting(1:end-2)}];
 
       string = strjoin(commands, '\n');
     end
@@ -165,7 +177,25 @@ classdef Gnuplot < handle
     function setYLabel(obj, label, options)
     end
 
+    function range = getXRange(obj)
+    % { [{{<min>}:{<max>}}] {{no}reverse} {{no}writeback} }
+    %           | restore
+      if isstruct(obj.s_x_range)
+        range = ['[', num2str(obj.s_x_range.min), ':', ...
+                 num2str(obj.s_x_range.max), ']'];
+      else
+        range = s_x_range;
+      end
+    end
+
     function setXRange(obj, range)
+      if isnumeric(range)
+        obj.s_x_range = struct;
+        obj.s_x_range.min = min(range) - 1;
+        obj.s_x_range.max = max(range);
+      else
+        obj.s_x_range = range;
+      end
     end
 
     function plot(obj, input)
