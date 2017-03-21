@@ -4,6 +4,10 @@ function matlab_gnuplot(varargin)
   if isempty(GNUPLOT)
     GNUPLOT = false;
   end
+  path = fileparts(mfilename('fullpath'));
+  if ~isempty(path)
+    path = [path, '/'];
+  end
 
   run_tests = false;
   if nargin > 0
@@ -12,16 +16,16 @@ function matlab_gnuplot(varargin)
 
   if ~GNUPLOT
     fprintf(1, 'Initializing MATLAB-Gnuplot\n');
-    addpath('src/');
+    addpath([path, 'src/']);
 
     GNUPLOT = true;
   end
 
   if run_tests
     fprintf(1, 'Running tests\n');
-    addpath('test/');
+    addpath([path, 'test/']);
 
-    test_files = dir('test/*.m');
+    test_files = dir([path, 'test/*.m']);
     for file_idx = 1:length(test_files)
       file = test_files(file_idx);
       test = file.name(1:(end - 2));
