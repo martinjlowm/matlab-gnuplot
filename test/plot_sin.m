@@ -1,6 +1,6 @@
 gpl = Gnuplot();
-gpl.setTerminal('tikz');
-gpl.setOutput('output/plot_sin.tex');
+gpl.setTerminal('pdfcairo');
+gpl.setOutput('test/output/plot_sin.pdf');
 
 key.position = 'outside';
 key.anchor = {'center', 'top'};
