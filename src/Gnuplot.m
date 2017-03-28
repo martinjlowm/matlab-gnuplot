@@ -17,6 +17,9 @@ classdef Gnuplot < handle
 
     % X Range
     s_x_range;
+
+    x_label;
+    y_label;
   end
 
   methods (Access = private)
@@ -71,6 +74,15 @@ classdef Gnuplot < handle
       x_range = obj.getXRange();
       if ~isempty(x_range)
         commands = [commands, {sprintf('set xrange %s', x_range)}];
+      end
+
+      if ~isempty(obj.x_label)
+        commands = [commands, {sprintf('set xlabel ''%s''', obj.x_label)}];
+        commands
+      end
+
+      if ~isempty(obj.y_label)
+        commands = [commands, {sprintf('set ylabel ''%s''', obj.y_label)}];
       end
 
       % Input
@@ -177,9 +189,11 @@ classdef Gnuplot < handle
     end
 
     function setXLabel(obj, label, options)
+      obj.x_label = strrep(label, '$', '\$');
     end
 
     function setYLabel(obj, label, options)
+      obj.y_label = strrep(label, '$', '\$');
     end
 
     function range = getXRange(obj)
