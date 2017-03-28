@@ -30,7 +30,7 @@ classdef Gnuplot < handle
         % Column format
         fmt = '%.4f';
         for i = 1:(cols - 1)
-          fmt = [fmt, ' %10.4f'];
+          fmt = [fmt, ' %10.10f'];
           obj.s_titles{i} = ['using 1:', num2str(i+1), ' ', ...
                              'title "', obj.s_input_name, '(', num2str(i), ', :', ...
                              ')" '];
