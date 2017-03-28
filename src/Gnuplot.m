@@ -78,7 +78,6 @@ classdef Gnuplot < handle
 
       if ~isempty(obj.x_label)
         commands = [commands, {sprintf('set xlabel ''%s''', obj.x_label)}];
-        commands
       end
 
       if ~isempty(obj.y_label)
