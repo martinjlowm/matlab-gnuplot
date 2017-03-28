@@ -31,9 +31,8 @@ classdef Gnuplot < handle
         fmt = '%.4f';
         for i = 1:(cols - 1)
           fmt = [fmt, ' %10.10f'];
-          obj.s_titles{i} = ['using 1:', num2str(i+1), ' ', ...
-                             'title "', obj.s_input_name, '(', num2str(i), ', :', ...
-                             ')" '];
+          obj.s_titles{i} = ['using 1:', num2str(i + 1), ' ', ...
+                             obj.s_titles{i}];
         end
         fmt = [fmt, '\n'];
 
@@ -156,6 +155,12 @@ classdef Gnuplot < handle
       obj.s_terminal = terminal;
     end
 
+    function setTitle(obj, varargin)
+      for k = 1:length(varargin)
+        obj.s_titles{k} = ['title "', varargin{k}, '"'];
+      end
+    end
+
     function setOutput(obj, output)
       obj.s_output = output;
     end
@@ -184,7 +189,7 @@ classdef Gnuplot < handle
         range = ['[', num2str(obj.s_x_range.min), ':', ...
                  num2str(obj.s_x_range.max), ']'];
       else
-        range = s_x_range;
+        range = obj.s_x_range;
       end
     end
 
