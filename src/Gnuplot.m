@@ -18,6 +18,9 @@ classdef Gnuplot < handle
     % X Range
     s_x_range;
 
+    % Logscale
+    s_logscale;
+
     x_label;
     y_label;
   end
@@ -82,6 +85,10 @@ classdef Gnuplot < handle
 
       if ~isempty(obj.y_label)
         commands = [commands, {sprintf('set ylabel ''%s''', obj.y_label)}];
+      end
+
+      if ~isempty(obj.s_logscale)
+        commands = [commands, {sprintf('set logscale %s', obj.s_logscale)}];
       end
 
       % Input
@@ -174,6 +181,10 @@ classdef Gnuplot < handle
 
     function setOutput(obj, output)
       obj.s_output = output;
+    end
+
+    function setLogScale(obj, axes)
+      obj.s_logscale = axes;
     end
 
     function setKey(obj, key)

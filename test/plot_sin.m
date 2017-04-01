@@ -7,6 +7,7 @@ key.anchor = {'center', 'top'};
 key.spacing = 2;
 gpl.setKey(key);
 
+gpl.setLogScale('y');
 gpl.setXLabel('$x$', 'offset -1');
 gpl.setXRange(1:10);
 
