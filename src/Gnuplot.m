@@ -15,6 +15,9 @@ classdef Gnuplot < handle
     % Titles
     s_titles;
 
+    % Titles
+    formats;
+
     % X Range
     s_x_range;
 
@@ -89,6 +92,11 @@ classdef Gnuplot < handle
 
       if ~isempty(obj.s_logscale)
         commands = [commands, {sprintf('set logscale %s', obj.s_logscale)}];
+      end
+
+      keys = fieldnames(obj.formats);
+      for i = 1:numel(keys)
+        commands = [commands, {sprintf('set format %s "%s"', keys{i}, obj.formats.(keys{i}))}];
       end
 
       % Input
@@ -166,6 +174,8 @@ classdef Gnuplot < handle
       obj.s_key.spacing = '';
       obj.s_key.title = '';
 
+      obj.formats = struct;
+
       obj.s_titles = {};
     end
 
@@ -185,6 +195,10 @@ classdef Gnuplot < handle
 
     function setLogScale(obj, axes)
       obj.s_logscale = axes;
+    end
+
+    function setFormat(obj, axis, format)
+      obj.formats.(axis) = format;
     end
 
     function setKey(obj, key)

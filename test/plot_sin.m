@@ -10,7 +10,7 @@ gpl.setKey(key);
 gpl.setLogScale('y');
 gpl.setXLabel('$x$', 'offset -1');
 gpl.setXRange(1:10);
-
+gpl.setFormat('y', '%.1e');
 gpl.setYLabel('$sin(x)$', 'offset -1');
 
 gpl.setTitle('sin(x)')
