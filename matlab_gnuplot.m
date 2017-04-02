@@ -1,6 +1,6 @@
 function matlab_gnuplot(varargin)
   mlock;
-  persistent GNUPLOT;
+  global GNUPLOT;
   if isempty(GNUPLOT)
     GNUPLOT = false;
   end
