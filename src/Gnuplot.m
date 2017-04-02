@@ -68,6 +68,11 @@ classdef Gnuplot < handle
       commands = [commands, {sprintf('set terminal %s', obj.s_terminal)}];
 
       % Output
+      % Ensure the path exists
+      dir = fileparts(obj.s_output);
+      if ~exist(dir)
+        system(['mkdir -p ', dir]);
+      end
       commands = [commands, {sprintf('set output ''%s''', obj.s_output)}];
 
       % Key
