@@ -21,6 +21,9 @@ classdef Gnuplot < handle
     % X Range
     s_x_range;
 
+    % Y Range
+    s_y_range;
+
     % Logscale
     s_logscale;
 
@@ -85,6 +88,12 @@ classdef Gnuplot < handle
       x_range = obj.getXRange();
       if ~isempty(x_range)
         commands = [commands, {sprintf('set xrange %s', x_range)}];
+      end
+
+      % Y Range
+      y_range = obj.getYRange();
+      if ~isempty(y_range)
+        commands = [commands, {sprintf('set yrange %s', y_range)}];
       end
 
       if ~isempty(obj.x_label)
@@ -239,10 +248,31 @@ classdef Gnuplot < handle
     function setXRange(obj, range)
       if isnumeric(range)
         obj.s_x_range = struct;
-        obj.s_x_range.min = min(range) - 1;
+        obj.s_x_range.min = min(range);
         obj.s_x_range.max = max(range);
       else
         obj.s_x_range = range;
+      end
+    end
+
+    function range = getYRange(obj)
+    % { [{{<min>}:{<max>}}] {{no}reverse} {{no}writeback} }
+    %           | restore
+      if isstruct(obj.s_y_range)
+        range = ['[', num2str(obj.s_y_range.min), ':', ...
+                 num2str(obj.s_y_range.max), ']'];
+      else
+        range = obj.s_y_range;
+      end
+    end
+
+    function setYRange(obj, range)
+      if isnumeric(range)
+        obj.s_y_range = struct;
+        obj.s_y_range.min = min(range);
+        obj.s_y_range.max = max(range);
+      else
+        obj.s_y_range = range;
       end
     end
 

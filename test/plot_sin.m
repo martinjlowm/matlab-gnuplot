@@ -7,9 +7,9 @@ key.anchor = {'center', 'top'};
 key.spacing = 2;
 gpl.setKey(key);
 
-gpl.setLogScale('y');
 gpl.setXLabel('$x$', 'offset -1');
-gpl.setXRange(1:10);
+gpl.setXRange(0:10);
+gpl.setYRange(-2:2);
 gpl.setFormat('y', '%.1e');
 gpl.setYLabel('$sin(x)$', 'offset -1');
 
