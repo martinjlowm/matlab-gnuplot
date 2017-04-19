@@ -198,6 +198,8 @@ classdef Gnuplot < handle
     end
 
     function setTitle(obj, varargin)
+      obj.s_titles = {};
+
       for k = 1:length(varargin)
         obj.s_titles{k} = ['title "', varargin{k}, '"'];
       end
