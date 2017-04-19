@@ -42,7 +42,7 @@ classdef Gnuplot < handle
         % Column format
         fmt = '%.4f';
         for i = 1:(cols - 1)
-          fmt = [fmt, ' %10.15f'];
+          fmt = [fmt, '\t%10.15f'];
           obj.s_titles{i} = ['using 1:', num2str(i + 1), ' ', ...
                              obj.s_titles{i}];
         end
