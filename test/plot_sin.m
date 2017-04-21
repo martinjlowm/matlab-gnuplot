@@ -15,4 +15,4 @@ gpl.setYLabel('$sin(x)$', 'offset -1');
 
 gpl.setTitle('sin(x)')
 
-gpl.plot('sin(x)')
+gpl.plot('sin(x)', 'dots')

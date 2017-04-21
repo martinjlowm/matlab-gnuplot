@@ -62,7 +62,7 @@ classdef Gnuplot < handle
       processed_input = input;
     end
 
-    function string = stringify(obj, input)
+    function string = stringify(obj, input, with)
       processed_input = obj.processInput(input);
 
       commands = {};
@@ -117,7 +117,7 @@ classdef Gnuplot < handle
       plotting = 'plot ';
       for title = obj.s_titles
         plotting = [plotting, processed_input, ' ', title{:}, ...
-                   ' with lines, '];
+                   ' with ', with, ', '];
       end
       commands = [commands, {plotting(1:end-2)}];
 
@@ -278,9 +278,13 @@ classdef Gnuplot < handle
       end
     end
 
-    function plot(obj, input)
+    function plot(obj, input, with)
+      if nargin < 3
+        with = 'lines';
+      end
+
       obj.s_input_name = inputname(2);
-      commands = obj.stringify(input);
+      commands = obj.stringify(input, with);
 
       system(sprintf('gnuplot <<EOF\n%s\nEOF', commands));
     end
