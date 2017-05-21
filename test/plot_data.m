@@ -1,6 +1,19 @@
-gpl = Gnuplot();
-gpl.setTerminal('pdfcairo');
-gpl.setOutput('test/output/plot_data.pdf');
-gpl.setTitle('Data1');
-dat = [1,2,3,4; 1,2,3,4];
-gpl.plot(dat)
+gpl = gnuplot.Gnuplot();
+gpl.setTerminal('aqua');
+
+y_axis = gpl.getAxis('y');
+y_axis.setLogScale(true);
+
+gpl.setTitle('Exponential functions');
+ydata = exp(1:10);
+gpl.plot(ydata);
+
+xdata = 1:0.1:10;
+ydata = exp(xdata);
+gpl.plot(xdata, ydata);
+
+output = gpl.execute(false);
+
+shouldExistIn('set title "Exponential functions"', output);
+shouldExistIn('set logscale y', output);
+shouldExistIn('plot (.*?) using 1:2, (.*?) using 1:2', output);
