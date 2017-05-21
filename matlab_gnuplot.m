@@ -22,8 +22,9 @@ function matlab_gnuplot(varargin)
   end
 
   if run_tests
-    fprintf(1, 'Running tests\n');
+    gnuplot.log('Running tests');
     addpath([path, 'test/']);
+    addpath([path, 'test/helper_functions']);
 
     test_files = dir([path, 'test/*.m']);
     for file_idx = 1:length(test_files)
@@ -32,7 +33,7 @@ function matlab_gnuplot(varargin)
       fprintf('%s', test);
       test = str2func(test);
       test();
-      fprintf(' - DONE\n');
+      fprintf(' ✓\n');
     end
   end
 end
