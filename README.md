@@ -13,8 +13,15 @@ Add the root of this library to your MATLAB path, e.g.,
 ```matlab
 matlab_gnuplot; % Initialize
 
-gpl = Gnuplot();
+gpl = gnuplot.Gnuplot();
 gpl.setTerminal('tikz');
 gpl.setOutput('sin_x.tex');
 gpl.plot('sin(x)');
+gpl.execute();
 ```
+
+The `test/` directory contains several other examples on how to use this
+library.
+
+Invoking `gpl.setTerminal()` without arguments lists all available terminals of
+your Gnuplot installation.
