@@ -22,8 +22,8 @@ output = gpl.execute(false);
 
 shouldExistIn('set terminal aqua', output);
 shouldExistIn('set title "Sine wave" offset 1, 1, 0 textcolor rgbcolor "red"', output);
-shouldExistIn('set xlabel "\\\$x\\\$"', output);
+shouldExistIn('set xlabel "\$x\$"', output);
 shouldExistIn('set xrange \[0:10\]', output);
 shouldNotExistIn('set yrange', output);
 shouldNotExistIn('set zrange', output);
-shouldExistIn('plot sin\(x\), \[0:2\] cos\(x\)', output);
+shouldExistIn('plot \[0:2\] sin\(x\), cos\(x\)', output);
