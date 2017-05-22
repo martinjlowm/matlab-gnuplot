@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 classdef AxisLabel < handle
 
-  properties (Access = private)
+  properties (Access = protected)
     % set xlabel {"<label>"} {offset <offset>} {font "<font>{,<size>}"}
     %            {textcolor <colorspec>} {{no}enhanced}
     %            {rotate by <degrees> | rotate parallel | norotate}
@@ -45,8 +45,12 @@ classdef AxisLabel < handle
   %% Constructors
   methods
     function this = AxisLabel(type)
+      if ~exist('type', 'var')
+        type = '';
+      end
+
       this.m_type = type;
-      this.m_text = '';
+      this.m_text = gnuplot.Text();
       this.m_font = gnuplot.Font();
       this.m_offset = gnuplot.CoordinateSet();
       this.m_color = gnuplot.Colorspec();
@@ -56,8 +60,8 @@ classdef AxisLabel < handle
 
   %% Setters
   methods
-    function set(this, text)
-      this.m_text = strrep(text, '$', '\$');
+    function setText(this, varargin)
+      this.m_text.set(varargin{:})
     end
   end
 
@@ -71,15 +75,15 @@ classdef AxisLabel < handle
     end
   end
 
-  methods (Access = private)
+  methods (Access = protected)
     function fragments = collectFragments(this)
       fragments = {};
 
-      if ~isempty(this.m_text)
+      text = this.m_text.toString();
+      if ~isempty(text)
         fragments = [fragments, sprintf('set %slabel', this.m_type)];
 
-        fragments = [fragments, ...
-                     sprintf('"%s"', strrep(this.m_text, '"', '\"'))];
+        fragments = [fragments, text];
 
         offset = this.m_offset.toString();
         if ~isempty(offset)

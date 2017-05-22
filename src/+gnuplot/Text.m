@@ -23,10 +23,40 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-function temp_file = writeTempDataFile(x_data, y_data)
-  temp_file = tempname;
-  file_id = fopen(temp_file, 'w');
+classdef Text < handle
 
-  fprintf(file_id, '%.4f\t%10.15f\n', [x_data; y_data]);
-  fclose(file_id);
+  properties (Access = private)
+    m_value;
+  end
+
+
+  %% Constructors
+  methods
+    function this = Text()
+      this.m_value = '';
+    end
+  end
+
+
+  %% Setters
+  methods
+    function set(this, varargin)
+      if isa(varargin{1}, 'cell')
+        this.m_value = sprintf('sprintf("%s", %s)', ...
+                               varargin{1}{1}, ...
+                               strjoin({varargin{1}{2:end}}, ', '));
+      else
+        this.m_value = sprintf('"%s"', varargin{1});
+      end
+    end
+  end
+
+
+  %% Other methods
+  methods
+    function str = toString(this)
+      str = this.m_value;
+    end
+  end
+
 end

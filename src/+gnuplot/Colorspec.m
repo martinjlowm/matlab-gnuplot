@@ -61,7 +61,7 @@ classdef Colorspec < handle
   %% Setters
   methods
     function set(this, value, palette_type)
-      if gnuplot.isColor(value) || this.isHexValue(value)
+      if gnuplot.is_color(value) || this.is_hex_value(value)
         this.m_type = 'rgbcolor';
       elseif isnumeric(value) && (0 <= value && value <= 1)
         % TODO: Reconsider this

@@ -40,7 +40,7 @@ classdef Title < handle
   %% Constructors
   methods (Access = ?gnuplot.Gnuplot)
     function this = Title()
-      this.m_text = '';
+      this.m_text = gnuplot.Text();
       this.m_color = gnuplot.Colorspec();
       this.m_font = gnuplot.Font();
       this.m_offset = gnuplot.CoordinateSet();
@@ -52,10 +52,8 @@ classdef Title < handle
 
   %% Setters
   methods
-    function set(this, text)
-      assert(ischar(text), 'Title text is not a string!');
-
-      this.m_text = text;
+    function setText(this, text)
+      this.m_text.set(text);
     end
 
     function this = setColor(this, varargin)
@@ -71,11 +69,11 @@ classdef Title < handle
   %% Other methods
   methods
     function str = toString(this)
-      if ~isempty(this.m_text)
+      text = this.m_text.toString();
+      if ~isempty(text)
         fragments = {};
 
-        fragments = [fragments, sprintf('set title "%s"', ...
-                                        strrep(this.m_text, '"', '\"'))];
+        fragments = [fragments, sprintf('set title %s', text)];
 
         offset = this.m_offset.toString();
         if ~isempty(offset)

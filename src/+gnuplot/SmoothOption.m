@@ -23,26 +23,45 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-function is_color = isColor(value)
-  persistent color_names;
+classdef SmoothOption < handle
 
-  if isa(value, 'gnuplot.Gnuplot')
-    gnuplot_output = value.invoke('show colornames');
-    gnuplot_output = strrep(gnuplot_output, '-', '_');
-    colors = regexp(gnuplot_output, ...
-                    '\s{2}([\w_]+).+', 'tokens', 'dotexceptnewline');
-    for i = 1:length(colors)
-      color = colors{i};
-      color_names.(color{:}) = true;
+  properties (Access = private)
+    % smooth {unique | frequency | cumulative | cnormal | kdensity {bandwidth}
+    %                | csplines | acsplines | mcsplines | bezier | sbezier
+    %                | unwrap}
+    m_value;
+  end
+
+
+  %% Constructors
+  methods
+    function this = SmoothOption()
+      this.m_value = '';
     end
-  else
-    value = strrep(value, '-', '_');
-    try
-      is_color = color_names.(value);
-    catch exception
-      if strcmp(exception.identifier, 'MATLAB:nonExistentField')
-        is_color = false;
+  end
+
+
+  %% Setters
+  methods
+    function set(this, value)
+      if isa(value, 'char')
+        this.m_value = value;
+      else
+        this.m_value = sprintf('kdensity %d', value);
       end
     end
   end
+
+
+  %% Other methods
+  methods
+    function str = toString(this)
+      if ~isempty(this.m_value)
+        str = sprintf('smooth %s', this.m_value);
+      else
+        str = '';
+      end
+    end
+  end
+
 end

@@ -51,7 +51,19 @@ classdef Label < gnuplot.AxisLabel
   %% Constructors
   methods
     function this = Label()
-      this.m_text = '';
+      this.m_position = gnuplot.Position();
+    end
+  end
+
+
+  %% Setters
+  methods
+    function setPosition(this, varargin)
+      this.m_position.set(varargin{:})
+    end
+
+    function setTag(this, value)
+      this.m_tag = value;
     end
   end
 
@@ -65,16 +77,13 @@ classdef Label < gnuplot.AxisLabel
         fragments = {};
 
         fragments = [fragments, axis_fragments{1}];
-        fragments = [fragments, this.m_tag];
+        fragments = [fragments, num2str(this.m_tag)];
         fragments = [fragments, axis_fragments{2}];
-        fragments = [fragments, this.m_position];
+        fragments = [fragments, this.m_position.toString()];
 
-      if ~isempty(this.m_tag)
-        fragments((2 + 1):(end + 1)) = fragments(2:end);
-        fragments{2} = this.m_tag;
-      end
-
-      str = strjoin(fragments, ' ');
+        str = strjoin(fragments, ' ');
+      else
+        str = '';
       end
     end
   end

@@ -31,6 +31,7 @@ classdef Key < handle
     %          | {at <position>}}
     %         {left | right | center} {top | bottom | center}
     %         {vertical | horizontal} {Left | Right}
+    %         {{no}opaque}
     %         {{no}reverse} {{no}invert}
     %         {samplen <sample_length>} {spacing <vertical_spacing>}
     %         {width <width_increment>}
@@ -73,7 +74,7 @@ classdef Key < handle
       this.m_growth = '';
       this.m_justification = '';
 
-      this.m_opaque = '';
+      this.m_opaque = false;
       this.m_reverse = '';
       this.m_invert = '';
 
@@ -85,15 +86,27 @@ classdef Key < handle
 
       this.m_autotitle = '';
       this.m_title = '';
-      this.m_box = '';
+      this.m_box = false;
     end
   end
 
 
   %% Setters
   methods
+    function setAnchor(this, horizontal, vertical)
+      this.m_anchor = sprintf('%s %s', horizontal, vertical);
+    end
+
     function setPosition(this, varargin)
       this.m_position.set(varargin{:});
+    end
+
+    function setBox(this)
+      this.m_box = true;
+    end
+
+    function setOpaque(this)
+      this.m_opaque = true;
     end
   end
 
@@ -118,6 +131,19 @@ classdef Key < handle
         if ~isempty(position)
           fragments = [fragments, position];
         end
+
+        if ~isempty(this.m_anchor)
+          fragments = [fragments, this.m_anchor];
+        end
+
+        if this.m_box
+          fragments = [fragments, 'box'];
+        end
+
+        if this.m_opaque
+          fragments = [fragments, 'opaque'];
+        end
+
       end
 
       str = strjoin(fragments, ' ');

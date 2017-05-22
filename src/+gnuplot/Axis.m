@@ -73,7 +73,7 @@ classdef Axis < handle
     end
 
     function setLabel(this, varargin)
-      this.m_label.set(varargin{:});
+      this.m_label.setText(varargin{:});
     end
 
     function setLogScale(this, state)

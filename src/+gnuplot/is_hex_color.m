@@ -23,7 +23,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-function is_hex = isHexColor(value)
+function is_hex = is_hex_color(value)
   is_hex = regexp(value, '^(0[x]|#)([\dA-F]{2}|[\dA-F]{0})[\dA-F]{6}$', ...
                   'match', 'ignorecase');
   is_hex = logical(length(is_hex));
