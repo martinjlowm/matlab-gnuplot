@@ -98,6 +98,10 @@ classdef PlotElement < handle
     function setTitle(this, title)
       this.m_title.set(title);
     end
+
+    function unsetTitle(this)
+      this.m_title.set('_NOTITLE_');
+    end
   end
 
 
@@ -115,7 +119,11 @@ classdef PlotElement < handle
 
       title = this.m_title.toString();
       if ~isempty(title)
-        fragments = [fragments, sprintf('title %s', title)];
+        if strcmp(title, '_NOTITLE_')
+          fragments = [fragments, 'notitle'];
+        else
+          fragments = [fragments, sprintf('title %s', title)];
+        end
       end
 
       % With
