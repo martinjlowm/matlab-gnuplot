@@ -23,9 +23,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef Title < handle
+classdef Title < gnuplot.Copyable
 
-  properties (Access = private)
+  properties (Access = ?gnuplot.Copyable)
     % set title {"<title-text>"} {offset <offset>} {font "<font>{,<size>}"}
     %           {{textcolor | tc} {<colorspec> | default}} {{no}enhanced}
     m_text;

@@ -23,9 +23,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef Gnuplot < handle
+classdef Gnuplot < gnuplot.Copyable
 
-  properties (Access = private)
+  properties (Access = ?gnuplot.Copyable)
     m_program;
     m_version;
 

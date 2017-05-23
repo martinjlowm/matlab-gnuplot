@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 classdef Label < gnuplot.AxisLabel
 
-  properties (Access = private)
+  properties (Access = ?gnuplot.Copyable)
     % set label {<tag>} {"<label text>"} {at <position>}
     %           {left | center | right}
     %           {norotate | rotate {by <degrees>}}

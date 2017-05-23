@@ -23,9 +23,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef AxisLabel < handle
+classdef AxisLabel < gnuplot.Copyable
 
-  properties (Access = protected)
+  properties (Access = ?gnuplot.Copyable)
     % set xlabel {"<label>"} {offset <offset>} {font "<font>{,<size>}"}
     %            {textcolor <colorspec>} {{no}enhanced}
     %            {rotate by <degrees> | rotate parallel | norotate}

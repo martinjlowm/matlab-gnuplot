@@ -23,9 +23,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef DataFile < handle
+classdef DataFile < gnuplot.Copyable
 
-  properties (Access = private)
+  properties (Access = ?gnuplot.Copyable)
     % '<file_name>' {binary <binary list>}
     %               {{nonuniform} matrix}
     %               {index <index list> | index "<name>"}
