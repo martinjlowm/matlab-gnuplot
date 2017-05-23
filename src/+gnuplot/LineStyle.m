@@ -40,7 +40,7 @@ classdef LineStyle < gnuplot.Copyable
 
 
   %% Constructors
-  methods (Access = ?gnuplot.Gnuplot)
+  methods
     function this = LineStyle(index)
       this.m_index = index;
 
