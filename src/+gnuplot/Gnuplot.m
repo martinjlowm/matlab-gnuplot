@@ -243,6 +243,9 @@ classdef Gnuplot < handle
       else
         output = commands;
       end
+
+      % Reset output to avoid chained writes that will destroy previous plots
+      this.m_output = '';
     end
 
     function stdout = invoke(this, commands)
