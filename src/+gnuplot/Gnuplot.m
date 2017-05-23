@@ -116,6 +116,10 @@ classdef Gnuplot < gnuplot.Copyable
 
     function setTerminal(this, terminal, options)
       if nargin > 1
+        if strcmp(terminal, 'aqua')
+          system('pkill AquaTerm');
+        end
+
         this.m_term = terminal;
 
         if exist('options', 'var')
