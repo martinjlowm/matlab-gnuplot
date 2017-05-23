@@ -244,8 +244,8 @@ classdef Gnuplot < gnuplot.Copyable
         output = commands;
       end
 
-      % Reset output to avoid chained writes that will destroy previous plots
       this.m_output = '';
+      this.m_plot_elements = {};
     end
 
     function stdout = invoke(this, commands)
