@@ -28,12 +28,15 @@ classdef Copyable < matlab.mixin.Copyable
     function copy = copyElement(this)
       copy = copyElement@matlab.mixin.Copyable(this);
 
-      fields = fieldnames(this);
+      % fieldnames cannot access the subclass' properties directly. Casting to a
+      % struct works around this limitation
+      warning('off', 'MATLAB:structOnObject');
+      fields = fieldnames(struct(this));
       for i = 1:length(fields)
         try
-          copy.(fields(i)) = this.(fields(i)).copy();
+          copy.(fields{i}) = this.(fields{i}).copy();
         catch
-          copy.(fields(i)) = this.(fields(i));
+          copy.(fields{i}) = this.(fields{i});
         end
       end
     end
