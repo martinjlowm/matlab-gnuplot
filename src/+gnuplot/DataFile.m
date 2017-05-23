@@ -52,9 +52,10 @@ classdef DataFile < gnuplot.Copyable
       file_name = tempname;
       file_id = fopen(file_name, 'w');
 
-      data = cell2mat(varargin');
-      [~, num_rows] = size(data);
-      data = [num2str(data'), repmat(newline, num_rows, 1)]';
+      data = cell2mat(cellfun(@(data) data(:), varargin, ...
+                              'UniformOutput', false));
+      [num_rows, ~] = size(data);
+      data = [num2str(data), repmat(newline, num_rows, 1)]';
       fprintf(file_id, data);
       fclose(file_id);
     end
@@ -79,16 +80,6 @@ classdef DataFile < gnuplot.Copyable
       this.m_volatile = '';
       this.m_autoscale = '';
     end
-  end
-
-
-  %% Getters
-  methods
-  end
-
-
-  %% Setters
-  methods
   end
 
 
