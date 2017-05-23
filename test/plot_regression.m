@@ -36,6 +36,7 @@ label.setPosition(7, 5);
 data_plot = gpl.plot(targets, estimates);
 data_plot.setTitle('Data');
 data_plot.setLineStyle(style_point);
+data_plot.setStyle('lines');
 
 a = stats.getSlope();
 b = stats.getIntercept();

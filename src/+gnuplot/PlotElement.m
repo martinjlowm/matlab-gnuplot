@@ -34,6 +34,7 @@ classdef PlotElement < gnuplot.Copyable
     m_source; % Function or data file
     m_title;
     m_line_style;
+    m_style;
   end
 
 
@@ -42,6 +43,8 @@ classdef PlotElement < gnuplot.Copyable
     function this = PlotElement(varargin)
       this.m_source = '';
       this.m_title = gnuplot.Text();
+      this.m_line_style = '';
+      this.m_style = gnuplot.PlotStyle();
     end
   end
 
@@ -95,6 +98,10 @@ classdef PlotElement < gnuplot.Copyable
       this.m_line_style = index;
     end
 
+    function setStyle(this, style)
+      this.m_style.set(style);
+    end
+
     function setTitle(this, title)
       this.m_title.set(title);
     end
@@ -126,7 +133,10 @@ classdef PlotElement < gnuplot.Copyable
         end
       end
 
-      % With
+      style = this.m_style.toString();
+      if ~isempty(style)
+        fragments = [fragments, style];
+      end
 
       if ~isempty(this.m_line_style)
         fragments = [fragments, sprintf('linestyle %d', this.m_line_style)];
