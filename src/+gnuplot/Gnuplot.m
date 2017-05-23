@@ -240,12 +240,12 @@ classdef Gnuplot < gnuplot.Copyable
       commands = strjoin(fragments, '\n');
       if do_execute
         this.invoke(commands);
+
+        this.m_output = '';
+        this.m_plot_elements = {};
       else
         output = commands;
       end
-
-      this.m_output = '';
-      this.m_plot_elements = {};
     end
 
     function stdout = invoke(this, commands)
