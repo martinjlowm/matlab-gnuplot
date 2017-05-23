@@ -119,7 +119,7 @@ classdef PlotElement < gnuplot.Copyable
 
       title = this.m_title.toString();
       if ~isempty(title)
-        if strcmp(title, '_NOTITLE_')
+        if strcmp(title, '"_NOTITLE_"')
           fragments = [fragments, 'notitle'];
         else
           fragments = [fragments, sprintf('title %s', title)];
