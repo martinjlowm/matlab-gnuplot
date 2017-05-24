@@ -1,3 +1,6 @@
+% Documentation is available at:
+%   https://github.com/martinjlowm/matlab-gnuplot/wiki
+
 %{
 Copyright 2017 Martin Jesper Low Madsen <martin@martinjlowm.dk>
 
@@ -275,7 +278,7 @@ classdef Gnuplot < gnuplot.Copyable
     function plot_element = plot(this, varargin)
       args = varargin;
       if isa(args{1}, 'gnuplot.Range')
-        this.m_ranges = [this.m_ranges, args{1}];
+        this.m_ranges = [{}, args{1}];
         args = {args{2:end}};
       end
 

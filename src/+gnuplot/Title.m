@@ -1,3 +1,6 @@
+% Documentation is available at:
+%   https://github.com/martinjlowm/matlab-gnuplot/wiki
+
 %{
 Copyright 2017 Martin Jesper Low Madsen <martin@martinjlowm.dk>
 
