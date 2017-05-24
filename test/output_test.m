@@ -26,3 +26,16 @@ gpl.execute();
 assert(logical(exist(output_file, 'file')), 'Output file does not exist!');
 delete(output_file);
 rmdir(fileparts(output_file));
+
+% Test using output directory
+output_directory = 'test/dir-does-not-exist';
+output_file = 'output_test.pdf';
+
+gpl.setOutput(output_file);
+gpl.setOutputDirectory(output_directory);
+
+gpl.execute();
+
+assert(logical(exist(gpl.m_output, 'file')), 'Output file does not exist!');
+delete(gpl.m_output);
+rmdir(output_directory);

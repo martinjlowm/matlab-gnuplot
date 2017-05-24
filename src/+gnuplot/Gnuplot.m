@@ -35,6 +35,8 @@ classdef Gnuplot < gnuplot.Copyable
     m_term;
     m_term_options;
 
+    m_output_file;
+    m_output_directory;
     m_output;
   end
 
@@ -75,6 +77,8 @@ classdef Gnuplot < gnuplot.Copyable
       this.m_term = '';
       this.m_term_options = {};
 
+      this.m_output_file = '';
+      this.m_output_directory = '';
       this.m_output = '';
 
       this.m_title = gnuplot.Title();
@@ -117,8 +121,12 @@ classdef Gnuplot < gnuplot.Copyable
 
   %% Setters
   methods
-    function setOutput(this, output)
-      this.m_output = output;
+    function setOutput(this, file)
+      this.m_output_file = file;
+    end
+
+    function setOutputDirectory(this, directory)
+      this.m_output_directory = directory;
     end
 
     function setTerminal(this, terminal, options)
@@ -189,7 +197,14 @@ classdef Gnuplot < gnuplot.Copyable
       end
 
       % Output
-      if ~isempty(this.m_output)
+      if ~isempty(this.m_output_file)
+        if ~isempty(this.m_output_directory)
+          this.m_output = ...
+              strjoin({this.m_output_directory, this.m_output_file}, '/');
+          this.m_output = regexprep(this.m_output, '/{2,}', '/');
+        else
+          this.m_output = this.m_output_file;
+        end
         fragments = [fragments, sprintf('set output "%s"', this.m_output)];
       end
 
@@ -264,7 +279,7 @@ classdef Gnuplot < gnuplot.Copyable
           return
         end
 
-        this.m_output = '';
+        this.m_output_file = '';
         this.m_plot_elements = {};
       else
         output = commands;
