@@ -1,4 +1,4 @@
-function matlab_gnuplot(varargin)
+function gnuplot(varargin)
   mlock;
   global GNUPLOT;
   if isempty(GNUPLOT)

@@ -11,7 +11,7 @@ Add the root of this library to your MATLAB path, e.g.,
 ## Usage ##
 
 ```matlab
-matlab_gnuplot; % Initialize
+gnuplot; % Initialize
 
 gpl = gnuplot.Gnuplot();
 gpl.setTerminal('tikz');
