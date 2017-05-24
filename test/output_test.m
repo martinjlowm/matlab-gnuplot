@@ -24,8 +24,7 @@ gpl.setOutput(output_file);
 gpl.execute();
 
 assert(logical(exist(output_file, 'file')), 'Output file does not exist!');
-delete(output_file);
-rmdir(fileparts(output_file));
+system(sprintf('rm -r %s', fileparts(output_file)));
 
 % Test using output directory
 output_directory = 'test/dir-does-not-exist';
@@ -37,5 +36,16 @@ gpl.setOutputDirectory(output_directory);
 gpl.execute();
 
 assert(logical(exist(gpl.m_output, 'file')), 'Output file does not exist!');
-delete(gpl.m_output);
-rmdir(output_directory);
+system(sprintf('rm -r %s', output_directory));
+
+% Test using nested output directory
+nested_output_directory = 'test/dir-does-not-exist/nor-this-one';
+output_file = 'output_test.pdf';
+
+gpl.setOutput(output_file);
+gpl.setOutputDirectory(nested_output_directory);
+
+gpl.execute();
+
+assert(logical(exist(gpl.m_output, 'file')), 'Output file does not exist!');
+system(sprintf('rm -r %s', output_directory));
