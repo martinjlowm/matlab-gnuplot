@@ -47,13 +47,13 @@ classdef Range < gnuplot.Copyable
       if nargin > 0
         this.m_type = type;
       else
-        this.m_type = '';
+        this.m_type = NaN;
       end
 
       this.m_dummy_var = '';
 
-      this.m_min = '';
-      this.m_max = '';
+      this.m_min = NaN;
+      this.m_max = NaN;
 
       this.m_reverse = false;
       this.m_writeback = false;
@@ -64,17 +64,27 @@ classdef Range < gnuplot.Copyable
 
   %% Setters
   methods
-    function set(this, range)
-      assert(~isempty(range), 'Range is empty!');
+    function set(this, varargin)
+      if nargin == 1
+        this.m_min = '';
+        this.m_max = '';
+      elseif nargin == 2
+        range = varargin{1};
 
-      if isnumeric(range)
-        this.m_min = num2str(min(range));
-        this.m_max = num2str(max(range));
+        assert(~isempty(range), 'Range is empty!');
+
+        if isnumeric(range)
+          this.m_min = min(range);
+          this.m_max = max(range);
+        else
+          range = regexp(range, '\[?(?<min>"?[^"]*"?)?:(?<max>[^\]]*)?\]?');
+
+          this.m_min = range.min;
+          this.m_max = range.max;
+        end
       else
-        range = regexp(range, '\[?(?<min>"?[^"]*"?):(?<max>[^\]]*)\]?');
-
-        this.m_min = range.min;
-        this.m_max = range.max;
+        this.m_min = varargin{1};
+        this.m_max = varargin{2};
       end
     end
 
@@ -89,8 +99,8 @@ classdef Range < gnuplot.Copyable
     function str = toString(this)
       fragments = {};
 
-      if ~isempty(this.m_min) || ~isempty(this.m_max)
-        if ~isempty(this.m_type)
+      if ~isnan(sum(this.m_min)) && ~isnan(sum(this.m_max))
+        if ~isnan(this.m_type)
           fragments = [fragments, sprintf('set %srange', this.m_type)];
         end
 
@@ -99,8 +109,9 @@ classdef Range < gnuplot.Copyable
           dummy_var = sprintf('%s = ', this.m_dummy_var);
         end
 
-        fragments = [fragments, ...
-                     sprintf('[%s%s:%s]', dummy_var, this.m_min, this.m_max)];
+        range = sprintf('[%s%d:%d]', dummy_var, this.m_min, this.m_max);
+        range = regexprep(range, '(\[):(\])', '$1$2');
+        fragments = [fragments, range];
 
         if ~isempty(this.m_type)
           if this.m_reverse
