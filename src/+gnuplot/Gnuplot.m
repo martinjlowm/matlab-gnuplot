@@ -290,6 +290,8 @@ classdef Gnuplot < gnuplot.Copyable
     end
 
     function success = preparePath(this)
+      success = true;
+
       if ~isempty(this.m_output)
         directory = fileparts(this.m_output);
 
