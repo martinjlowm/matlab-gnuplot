@@ -255,8 +255,10 @@ classdef Gnuplot < gnuplot.Copyable
       commands = strjoin(fragments, '\n');
       if do_execute
         if this.preparePath()
-          gnuplot.log('Writing output to file: `%s'''' using %s terminal', ...
-                      this.m_output, this.m_term);
+          if ~isempty(this.m_output)
+            gnuplot.log('Writing output to file: `%s'' using %s terminal', ...
+                        this.m_output, this.m_term);
+          end
           this.invoke(commands);
         else
           return
