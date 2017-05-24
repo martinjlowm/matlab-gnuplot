@@ -26,58 +26,32 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef Axis < gnuplot.Copyable
+classdef Format < gnuplot.Copyable
 
   properties (Access = ?gnuplot.Copyable)
-    m_type;
-    m_range;
-    m_format;
-    m_label;
-
-    m_logscale;
+    m_value;
   end
 
 
   %% Constructors
-  methods (Access = ?gnuplot.Gnuplot)
-    function this = Axis(type)
-      this.m_type = type;
-      this.m_range = gnuplot.Range(type);
-      this.m_format = gnuplot.Format();
-      this.m_label = gnuplot.AxisLabel(type);
-      this.m_logscale = false;
-    end
-  end
-
-
-  %% Getters
   methods
-    function format = getFormat(this)
-      format = this.m_format.toString();
-    end
-
-    function range = getRange(this)
-      range = this.m_range;
+    function this = Format()
+      this.m_value = '';
     end
   end
 
 
   %% Setters
   methods
-    function setFormat(this, format)
-      this.m_format.set(format);
-    end
+    function set(this, format)
+      switch format
+        case 'engineering'
+          format = '%g';
+        case 'scientific'
+          format = '%h';
+      end
 
-    function setRange(this, varargin)
-      this.m_range.set(varargin{:});
-    end
-
-    function setLabel(this, varargin)
-      this.m_label.setText(varargin{:});
-    end
-
-    function setLogScale(this, state)
-      this.m_logscale = state;
+      this.m_value = format;
     end
   end
 
@@ -85,28 +59,7 @@ classdef Axis < gnuplot.Copyable
   %% Other methods
   methods
     function str = toString(this)
-      fragments = {};
-
-      label = this.m_label.toString();
-      if ~isempty(label)
-        fragments = [fragments, label];
-      end
-
-      range = this.m_range.toString();
-      if ~isempty(range)
-        fragments = [fragments, range];
-      end
-
-      format = this.m_format.toString();
-      if ~isempty(format)
-        fragments = [fragments, sprintf('set format %s "%s"', this.m_type, format)];
-      end
-
-      if this.m_logscale
-        fragments = [fragments, sprintf('set logscale %s', this.m_type)];
-      end
-
-      str = strjoin(fragments, '\n');
+      str = this.m_value;
     end
   end
 
