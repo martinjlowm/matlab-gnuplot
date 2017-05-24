@@ -55,8 +55,7 @@ classdef DataFile < gnuplot.Copyable
       file_name = tempname;
       file_id = fopen(file_name, 'w');
 
-      data = cell2mat(cellfun(@(data) data(:), varargin, ...
-                              'UniformOutput', false));
+      data = cell2mat(varargin);
       [num_rows, ~] = size(data);
       data = [num2str(data), repmat(newline, num_rows, 1)]';
       fprintf(file_id, data);
@@ -68,6 +67,9 @@ classdef DataFile < gnuplot.Copyable
   %% Constructors
   methods
     function this = DataFile(varargin)
+      varargin = cellfun(@(data) data(:), varargin, ...
+                         'UniformOutput', false);
+
       if isa([varargin{:}], 'double')
         this.m_file_name = gnuplot.DataFile.WriteTempFile(varargin{:});
       else
