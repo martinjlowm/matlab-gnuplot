@@ -28,7 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 classdef Gnuplot < gnuplot.Copyable
 
-  properties (Access = ?gnuplot.Copyable)
+  properties (GetAccess = public)
     m_program;
     m_version;
 
@@ -36,7 +36,9 @@ classdef Gnuplot < gnuplot.Copyable
     m_term_options;
 
     m_output;
+  end
 
+  properties (Access = ?gnuplot.Copyable)
     m_key;
 
     m_title;
