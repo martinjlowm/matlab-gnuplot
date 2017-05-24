@@ -73,6 +73,8 @@ classdef Gnuplot < gnuplot.Copyable
       this.m_term = '';
       this.m_term_options = {};
 
+      this.m_output = '';
+
       this.m_title = gnuplot.Title();
       this.m_key = gnuplot.Key();
 
@@ -181,8 +183,12 @@ classdef Gnuplot < gnuplot.Copyable
       if ~isempty(this.m_term)
         term = sprintf('set terminal %s', this.m_term);
         options = strjoin(this.m_term_options, ' ');
-        fragments = [fragments, sprintf('%s %s', term, options)
-                     ];
+        fragments = [fragments, sprintf('%s %s', term, options)];
+      end
+
+      % Output
+      if ~isempty(this.m_output)
+        fragments = [fragments, sprintf('set output "%s"', this.m_output)];
       end
 
       % Stats
@@ -246,7 +252,13 @@ classdef Gnuplot < gnuplot.Copyable
 
       commands = strjoin(fragments, '\n');
       if do_execute
-        this.invoke(commands);
+        if this.preparePath()
+          gnuplot.log('Writing output to file: `%s'''' using %s terminal', ...
+                      this.m_output, this.m_term);
+          this.invoke(commands);
+        else
+          return
+        end
 
         this.m_output = '';
         this.m_plot_elements = {};
@@ -273,6 +285,26 @@ classdef Gnuplot < gnuplot.Copyable
                         'gnuplot ([\d\.]*) patchlevel (\d*)', 'tokens'));
 
       this.m_version = sprintf('%s-%s', version{:}, patchlevel{:});
+    end
+
+    function success = preparePath(this)
+      if ~isempty(this.m_output)
+        directory = fileparts(this.m_output);
+
+        try
+          if ~logical(exist(directory, 'dir'))
+            mkdir(directory);
+          end
+
+          success = true;
+        catch exception
+          if strcmp(exception, 'MATLAB:MKDIR:OSError')
+            gnuplot.log('Failed to prepare path `%s'': Permission denied', ...
+                        directory);
+            success = false;
+          end
+        end
+      end
     end
 
     function plot_element = plot(this, varargin)
