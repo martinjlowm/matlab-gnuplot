@@ -17,7 +17,7 @@ function gnuplot(varargin)
   if ~GNUPLOT
     addpath([path, 'src/']);
     gnuplot.log('MATLAB-Gnuplot has been initialized!');
-    gnuplot.log('To instantiate an object, use `gpl = gnuplot.Gnuplot();''');
+    gnuplot.log('To instantiate an object, use ''gpl = gnuplot.Gnuplot();''');
 
     GNUPLOT = true;
   end
