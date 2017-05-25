@@ -26,16 +26,20 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef Position < gnuplot.Copyable
+classdef Output < gnuplot.Copyable
 
-  properties (Access = ?gnuplot.Copyable)
+  properties (Access = {?gnuplot.Copyable, ?gnuplot.Gnuplot})
+    m_file;
+    m_directory;
     m_value;
   end
 
 
   %% Constructors
   methods
-    function this = Position()
+    function this = Output(binary_path)
+      this.m_file = '';
+      this.m_directory = '';
       this.m_value = '';
     end
   end
@@ -43,25 +47,31 @@ classdef Position < gnuplot.Copyable
 
   %% Setters
   methods
-    function set(this, varargin)
-      if nargin > 2
-        this.m_value = gnuplot.CoordinateSet();
-        this.m_value.set(varargin{:});
-      else
-        this.m_value = varargin{1};
-      end
+    function set(this, file)
+      this.m_file = file;
+    end
+
+    function setDirectory(this, directory)
+      this.m_directory = directory;
     end
   end
 
 
   %% Other methods
   methods
-    function str = toString(this)
-      if isa(this.m_value, 'gnuplot.CoordinateSet')
-        str = this.m_value.toString();
+    function evaluateOutput(this)
+      if ~isempty(this.m_directory)
+        this.m_value = ...
+            strjoin({this.m_directory, this.m_file}, '/');
+        this.m_value = regexprep(this.m_value, '/{2,}', '/');
       else
-        str = this.m_value;
+        this.m_value = this.m_file;
       end
+    end
+
+    function str = toString(this)
+      this.evaluateOutput();
+      str = this.m_value;
     end
   end
 

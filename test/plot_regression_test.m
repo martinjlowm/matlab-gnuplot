@@ -7,7 +7,7 @@ x_axis.setLabel('Targets - y');
 y_axis = gpl.getAxis('y');
 y_axis.setLabel('Estimates - $\hat{y}$');
 
-key = gpl.enableKey();
+key = gpl.getKey();
 key.setAnchor('left', 'top');
 key.setPosition('inside');
 key.setBox();
@@ -48,7 +48,7 @@ plot_element = gpl.plot('x');
 plot_element.setTitle('$\hat{y} = y$');
 plot_element.setLineStyle(style_eq);
 
-output = gpl.execute(false);
+output = gpl.execute();
 
 shouldExistIn('stats ''(.*?)'' using 1:2 name "_1"', output);
 shouldExistIn('set title (.*?) _1_correlation\)', output);

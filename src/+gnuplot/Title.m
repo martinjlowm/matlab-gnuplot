@@ -41,7 +41,7 @@ classdef Title < gnuplot.Copyable
 
 
   %% Constructors
-  methods (Access = ?gnuplot.Gnuplot)
+  methods (Access = ?gnuplot.ElementCreator)
     function this = Title()
       this.m_text = gnuplot.Text();
       this.m_color = gnuplot.Colorspec();

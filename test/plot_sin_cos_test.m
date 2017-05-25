@@ -6,7 +6,7 @@ title = gpl.setTitle('Sine wave');
 title.setOffset(1, 1);
 title.setColor('red');
 
-key = gpl.enableKey();
+key = gpl.getKey();
 key.setPosition('outside');
 
 x_axis = gpl.getAxis('x');

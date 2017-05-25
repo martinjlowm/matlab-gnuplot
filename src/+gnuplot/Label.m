@@ -43,7 +43,7 @@ classdef Label < gnuplot.AxisLabel
     % unset label {<tag>}
     m_tag;
     m_position;
-    m_anchor;
+    m_alignment;
     m_level;
     m_point;
     m_boxed;
@@ -54,7 +54,17 @@ classdef Label < gnuplot.AxisLabel
   %% Constructors
   methods
     function this = Label()
+      this.m_tag = '';
       this.m_position = gnuplot.Position();
+      this.m_alignment = '';
+    end
+  end
+
+
+  %% Getters
+  methods
+    function position = getPosition(this)
+      position = this.m_position;
     end
   end
 
@@ -68,6 +78,10 @@ classdef Label < gnuplot.AxisLabel
     function setTag(this, value)
       this.m_tag = value;
     end
+
+    function setAlignment(this, alignment)
+      this.m_alignment = alignment;
+    end
   end
 
 
@@ -80,9 +94,17 @@ classdef Label < gnuplot.AxisLabel
         fragments = {};
 
         fragments = [fragments, axis_fragments{1}];
-        fragments = [fragments, num2str(this.m_tag)];
+
+        if ~isempty(this.m_tag)
+          fragments = [fragments, num2str(this.m_tag)];
+        end
+
         fragments = [fragments, axis_fragments{2}];
-        fragments = [fragments, this.m_position.toString()];
+        fragments = [fragments, sprintf('at %s', ...
+                                        this.m_position.toString())];
+        if ~isempty(this.m_alignment)
+          fragments = [fragments, this.m_alignment];
+        end
 
         str = strjoin(fragments, ' ');
       else

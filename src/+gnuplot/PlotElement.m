@@ -42,7 +42,7 @@ classdef PlotElement < gnuplot.Copyable
 
 
   %% Constructors
-  methods (Access = ?gnuplot.Gnuplot)
+  methods (Access = ?gnuplot.ElementCreator)
     function this = PlotElement(varargin)
       this.m_source = '';
       this.m_title = gnuplot.Text();

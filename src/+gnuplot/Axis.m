@@ -39,7 +39,7 @@ classdef Axis < gnuplot.Copyable
 
 
   %% Constructors
-  methods (Access = ?gnuplot.Gnuplot)
+  methods (Access = ?gnuplot.ElementCreator)
     function this = Axis(type)
       this.m_type = type;
       this.m_range = gnuplot.Range(type);

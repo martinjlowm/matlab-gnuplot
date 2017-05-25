@@ -26,30 +26,44 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef Position < gnuplot.Copyable
+classdef Terminal < gnuplot.Copyable
 
-  properties (Access = ?gnuplot.Copyable)
+  properties (Access = {?gnuplot.Copyable, ?gnuplot.Gnuplot})
     m_value;
+    m_options;
   end
 
 
   %% Constructors
   methods
-    function this = Position()
-      this.m_value = '';
+    function this = Terminal()
+      this.m_value = 'pdf';
+      this.m_options = {};
+    end
+  end
+
+
+  %% Getters
+  methods
+    function str = get(this)
+      str = this.m_value;
+    end
+
+    function str = getOptions(this)
+      str = strjoin(this.m_options, ' ');
     end
   end
 
 
   %% Setters
   methods
-    function set(this, varargin)
-      if nargin > 2
-        this.m_value = gnuplot.CoordinateSet();
-        this.m_value.set(varargin{:});
-      else
-        this.m_value = varargin{1};
+    function set(this, terminal, options)
+      if strcmp(terminal, 'aqua')
+        system('pkill AquaTerm');
       end
+
+      this.m_value = terminal;
+      this.m_options = options;
     end
   end
 
@@ -57,10 +71,11 @@ classdef Position < gnuplot.Copyable
   %% Other methods
   methods
     function str = toString(this)
-      if isa(this.m_value, 'gnuplot.CoordinateSet')
-        str = this.m_value.toString();
-      else
-        str = this.m_value;
+      str = '';
+
+      if ~isempty(this.m_value)
+        options = strjoin(this.m_options, ' ');
+        str = sprintf('set terminal %s %s', this.m_value, options);
       end
     end
   end
