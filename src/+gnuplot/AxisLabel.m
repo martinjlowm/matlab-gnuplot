@@ -66,6 +66,10 @@ classdef AxisLabel < gnuplot.Copyable
     function setText(this, varargin)
       this.m_text.set(varargin{:})
     end
+
+    function setOffset(this, varargin)
+      this.m_offset.set(varargin{:})
+    end
   end
 
 

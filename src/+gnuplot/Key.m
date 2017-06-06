@@ -108,6 +108,10 @@ classdef Key < gnuplot.Copyable
       this.m_box = true;
     end
 
+    function setSpacing(this, spacing)
+      this.m_spacing = spacing;
+    end
+
     function setOpaque(this)
       this.m_opaque = true;
     end
@@ -153,6 +157,10 @@ classdef Key < gnuplot.Copyable
 
         if this.m_opaque
           fragments = [fragments, 'opaque'];
+        end
+
+        if ~isempty(this.m_spacing)
+          fragments = [fragments, sprintf('spacing %d', this.m_spacing)];
         end
 
       end

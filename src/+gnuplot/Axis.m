@@ -76,6 +76,10 @@ classdef Axis < gnuplot.Copyable
       this.m_label.setText(varargin{:});
     end
 
+    function setLabelOffset(this, varargin)
+      this.m_label.setOffset(varargin{:});
+    end
+
     function setLogScale(this, state)
       this.m_logscale = state;
     end
