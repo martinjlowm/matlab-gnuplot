@@ -94,7 +94,7 @@ classdef AxisLabel < gnuplot.Copyable
 
         offset = this.m_offset.toString();
         if ~isempty(offset)
-          fragments = [fragments, offset];
+          fragments = [fragments, sprintf('offset %s', offset)];
         end
 
         font = this.m_font.toString();
