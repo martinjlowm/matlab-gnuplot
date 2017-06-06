@@ -14,7 +14,7 @@ y_axis.setRange(0, max_val);
 
 gpl.plot(x_data, y_data);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 
 shouldExistIn(escape(sprintf('set xrange [0:%d]', max_val)), output);
@@ -24,7 +24,7 @@ shouldExistIn(escape(sprintf('set yrange [0:%d]', max_val)), output);
 x_axis = gpl.getAxis('x');
 x_axis.setRange(0:10);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn('set xrange \[0:10\]', output);
 
@@ -34,7 +34,7 @@ x_range.set(-pi:pi:pi);
 
 gpl.plot(x_range, x_data, y_data);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn(escape(sprintf('plot [%d:%d]', -pi, pi)), output);
 
@@ -44,7 +44,7 @@ y_range.set(-eps:eps:eps);
 
 gpl.plot([x_range, y_range], x_data, y_data);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn(escape(sprintf('plot [%d:%d] [%d:%d]', -pi, pi, -eps, eps)), ...
               output);
@@ -54,7 +54,7 @@ x_range.set();
 
 gpl.plot([x_range, y_range], x_data, y_data);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn('plot \[\]', output);
 
@@ -63,7 +63,7 @@ x_range.set('', pi);
 
 gpl.plot(x_range, x_data, y_data);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn(escape(sprintf('plot [:%d]', pi)), output);
 
@@ -72,6 +72,6 @@ x_range.set(-pi, '');
 
 gpl.plot(x_range, x_data, y_data);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn(escape(sprintf('plot [%d:]', -pi)), output);

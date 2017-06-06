@@ -16,7 +16,7 @@ y_axis.setFormat('engineering');
 
 gpl.plot(x_data, y_data);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn('set format x "%h"', output);
 shouldExistIn('set format y "%g"', output);

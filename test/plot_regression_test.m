@@ -24,7 +24,7 @@ style_eq.setDashType(3);
 
 targets = 1:10;
 estimates = targets + .5 * randn(1, 10);
-stats = gpl.stats(estimates, targets);
+stats = gpl.getStats(estimates, targets);
 
 gpl.setTitle({'Regression with correlation: R = %1.4f', ...
               stats.getCorrelation()});
@@ -48,7 +48,7 @@ plot_element = gpl.plot('x');
 plot_element.setTitle('$\hat{y} = y$');
 plot_element.setLineStyle(style_eq);
 
-output = gpl.execute();
+output = gpl.execute(true);
 
 shouldExistIn('stats ''(.*?)'' using 1:2 name "_1"', output);
 shouldExistIn('set title (.*?) _1_correlation\)', output);

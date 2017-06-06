@@ -14,7 +14,7 @@ y_axis.setLabel('f(x)');
 
 gpl.plot(f);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn('set terminal aqua', output);
 shouldExistIn('set title "Anonymous MATLAB function"', output);

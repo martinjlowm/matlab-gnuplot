@@ -18,7 +18,7 @@ range.set(0:2);
 
 gpl.plot('sin(x)');
 gpl.plot(range, 'cos(x)');
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn('set terminal aqua', output);
 shouldExistIn('set title "Sine wave" offset 1, 1, 0 textcolor rgbcolor "red"', output);

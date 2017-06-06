@@ -12,7 +12,7 @@ xdata = 1:0.1:10;
 ydata = exp(xdata);
 gpl.plot(xdata, ydata);
 
-output = gpl.execute(false);
+output = gpl.execute(true);
 
 shouldExistIn('set title "Exponential functions"', output);
 shouldExistIn('set logscale y', output);
