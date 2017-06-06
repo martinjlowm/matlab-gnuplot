@@ -41,27 +41,29 @@ classdef Arrow < gnuplot.Copyable
     %                 {linetype <line_type>} {linewidth <line_width>}
     %                 {linecolor <colorspec>} {dashtype <dashtype>}
     m_tag;
+
     m_from_position;
     m_to_position;
+    m_length;
+    m_angle;
+
+    m_arrow_style;
+
     m_anchor;
-    m_level;
-    m_point;
-    m_boxed;
-    m_hypertext;
   end
 
 
   methods (Static)
     function position = Point(varargin)
-      assert(length(varargin) >= 1, ...
-             'The position pointed to or from cannot be empty!');
+      gnuplot.assert(length(varargin) >= 1, ...
+                     'The position pointed to or from cannot be empty!');
 
       if isa(varargin{1}, 'gnuplot.Label')
         position = varargin{1}.getPosition();
       elseif isa(varargin{1}, 'gnuplot.Position')
         position = varargin{1};
       else
-        position = gnuplot.Position();
+        position = gnuplot.CoordinateSet();
         position.set(varargin{:});
       end
     end
@@ -74,6 +76,7 @@ classdef Arrow < gnuplot.Copyable
       this.m_tag = '';
       this.m_from_position = '';
       this.m_to_position = '';
+      this.m_arrow_style = '';
     end
   end
 
@@ -90,6 +93,13 @@ classdef Arrow < gnuplot.Copyable
 
     function pointTo(this, varargin)
       this.m_to_position = gnuplot.Arrow.Point(varargin{:});
+    end
+
+    function setStyle(this, style)
+      gnuplot.assert(isa(style, 'gnuplot.ArrowStyle'), ...
+                     'Style must be of type ArrowStyle!');
+
+      this.m_arrow_style = style;
     end
   end
 
