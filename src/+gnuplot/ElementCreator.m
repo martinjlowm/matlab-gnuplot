@@ -32,6 +32,7 @@ classdef ElementCreator < gnuplot.Copyable
     m_title;
     m_key;
 
+    m_arrow_styles;
     m_line_styles;
     m_data_stats;
 
@@ -51,6 +52,7 @@ classdef ElementCreator < gnuplot.Copyable
       this.m_title = gnuplot.Title();
       this.m_key = gnuplot.Key();
 
+      this.m_arrow_styles = {};
       this.m_line_styles = {};
       this.m_data_stats = gnuplot.DataStats.empty();
 
@@ -93,25 +95,33 @@ classdef ElementCreator < gnuplot.Copyable
 
     function data_stats = getStats(this, varargin)
       data_stats = gnuplot.DataStats(varargin{:});
-      this.m_stats = [this.m_stats, data_stats];
-      data_stats.setID(length(this.m_stats));
+      this.m_data_stats = [this.m_data_stats, data_stats];
+      data_stats.setID(length(this.m_data_stats));
+    end
+
+    function style = getStyle(this, field, constructor, index)
+      try
+        style = this.(field)(index);
+      catch exception
+        if strcmp(exception.identifier, 'MATLAB:badsubscript')
+          style = constructor(index);
+          this.(field){index} = style;
+        end
+      end
+    end
+
+    function style = getArrowStyle(this, index)
+      style = this.getStyle('m_arrow_styles', @gnuplot.ArrowStyle, index);
     end
 
     function style = getLineStyle(this, index)
-      try
-        style = this.m_line_styles(index);
-      catch exception
-        if strcmp(exception.identifier, 'MATLAB:badsubscript')
-          style = gnuplot.LineStyle(index);
-          this.m_line_styles{index} = style;
-        end
-      end
+      style = this.getStyle('m_line_styles', @gnuplot.LineStyle, index);
     end
 
     function plot_element = plot(this, varargin)
       args = varargin;
       if isa(args{1}, 'gnuplot.Range')
-        this.m_ranges = [gnuplot.Range.empty(), args{1}];
+        this.m_ranges = [args{1}];
         args = {args{2:end}};
       end
 

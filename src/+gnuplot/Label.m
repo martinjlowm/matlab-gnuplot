@@ -44,7 +44,8 @@ classdef Label < gnuplot.AxisLabel
     m_tag;
     m_position;
     m_alignment;
-    m_level;
+    m_draw_layer;
+
     m_point;
     m_boxed;
     m_hypertext;
@@ -57,6 +58,10 @@ classdef Label < gnuplot.AxisLabel
       this.m_tag = '';
       this.m_position = gnuplot.Position();
       this.m_alignment = '';
+      this.m_draw_layer = gnuplot.DrawLayer();
+      this.m_offset = gnuplot.Position();
+      this.m_boxed = false;
+      this.m_hypertext = false;
     end
   end
 
@@ -82,6 +87,22 @@ classdef Label < gnuplot.AxisLabel
     function setAlignment(this, alignment)
       this.m_alignment = alignment;
     end
+
+    function setBoxed(this, state)
+      this.m_boxed = state;
+    end
+
+    function setHypertext(this, state)
+      this.m_hypertext = state;
+    end
+
+    function setDrawLayer(this, layer)
+      this.m_draw_layer.set(layer);
+    end
+
+    function setOffset(this, varargin)
+      this.m_offset.set(varargin{:});
+    end
   end
 
 
@@ -104,6 +125,21 @@ classdef Label < gnuplot.AxisLabel
                                         this.m_position.toString())];
         if ~isempty(this.m_alignment)
           fragments = [fragments, this.m_alignment];
+        end
+
+        fragments = [fragments, this.m_draw_layer.toString()];
+
+        offset = this.m_offset.toString();
+        if ~isempty(offset)
+          fragments = [fragments, sprintf('offset %s', offset)];
+        end
+
+        if this.m_boxed
+          fragments = [fragments, 'boxed'];
+        end
+
+        if this.m_hypertext
+          fragments = [fragments, 'hypertext'];
         end
 
         str = strjoin(fragments, ' ');

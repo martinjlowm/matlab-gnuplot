@@ -26,16 +26,17 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef Position < gnuplot.Copyable
+classdef DrawLayer < gnuplot.Copyable
 
   properties (Access = ?gnuplot.Copyable)
+    % {front | back}
     m_value;
   end
 
 
   %% Constructors
   methods
-    function this = Position()
+    function this = DrawLayer()
       this.m_value = '';
     end
   end
@@ -43,31 +44,19 @@ classdef Position < gnuplot.Copyable
 
   %% Setters
   methods
-    function set(this, varargin)
-      gnuplot.assert(nargin > 1, 'Not enough inputs given!');
+    function set(this, level)
+      gnuplot.assert(gnuplot.match(level, 'front|back'), ...
+                     'Usage: {front | back}');
 
-      if ~isa(varargin{1}, 'char')
-        this.m_value = gnuplot.CoordinateSet();
-        this.m_value.set(varargin{:});
-      else
-        this.m_value = varargin{1};
-      end
+      this.m_position.set(level);
     end
   end
 
 
   %% Other methods
   methods
-    function is_coords = isCoordinates(this)
-      is_coords = isa(this.m_value, 'gnuplot.CoordinateSet');
-    end
-
     function str = toString(this)
-      if isa(this.m_value, 'gnuplot.CoordinateSet')
-        str = this.m_value.toString();
-      else
-        str = this.m_value;
-      end
+      str = this.m_value;
     end
   end
 

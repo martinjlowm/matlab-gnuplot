@@ -37,7 +37,7 @@ classdef Output < gnuplot.Copyable
 
   %% Constructors
   methods
-    function this = Output(binary_path)
+    function this = Output()
       this.m_file = '';
       this.m_directory = '';
       this.m_value = '';

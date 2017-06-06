@@ -26,17 +26,32 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef Position < gnuplot.Copyable
+classdef ArrowHeadSize < gnuplot.Copyable
 
   properties (Access = ?gnuplot.Copyable)
-    m_value;
+    % {size <headlength>,<headangle>{,<backangle>}}
+    m_length;
+    m_angle;
+    m_back_angle;
+  end
+
+
+  methods (Static)
+    function head = SetAngle(angle)
+      gnuplot.assert(isa(angle, 'double'), ...
+                     'Angle must be a numeric scalar!');
+
+      head = angle;
+    end
   end
 
 
   %% Constructors
   methods
-    function this = Position()
-      this.m_value = '';
+    function this = ArrowHeadSize()
+      this.m_length = '';
+      this.m_angle = '';
+      this.m_back_angle = '';
     end
   end
 
@@ -44,29 +59,57 @@ classdef Position < gnuplot.Copyable
   %% Setters
   methods
     function set(this, varargin)
-      gnuplot.assert(nargin > 1, 'Not enough inputs given!');
+      num_args = nargin - 1;
 
-      if ~isa(varargin{1}, 'char')
-        this.m_value = gnuplot.CoordinateSet();
-        this.m_value.set(varargin{:});
-      else
-        this.m_value = varargin{1};
+      gnuplot.assert(num_args >= 2 && num_args <= 3, ...
+                     'Usage: <headlength>,<headangle>{,<backangle>}');
+
+      this.setLength(varargin{1});
+      this.setAngle(varargin{2});
+
+      if num_args == 3
+        this.setBackAngle(varargin{3});
       end
+    end
+
+    function setLength(this, length)
+      gnuplot.assert(isa(length, 'double'), ...
+                     'Length must be a numeric scalar');
+
+      this.m_length = length;
+    end
+
+    function setAngle(this, angle)
+      this.m_angle = gnuplot.ArrowHeadSize.SetAngle(angle);
+    end
+
+    function setBackAngle(this, angle)
+      this.m_back_angle = gnuplot.ArrowHeadSize.SetAngle(angle);
     end
   end
 
 
   %% Other methods
   methods
-    function is_coords = isCoordinates(this)
-      is_coords = isa(this.m_value, 'gnuplot.CoordinateSet');
-    end
-
     function str = toString(this)
-      if isa(this.m_value, 'gnuplot.CoordinateSet')
-        str = this.m_value.toString();
-      else
-        str = this.m_value;
+      str = '';
+
+      fragments = {};
+
+      if ~isempty(this.m_length)
+        fragments = [fragments, num2str(this.m_length)];
+      end
+
+      if ~isempty(this.m_angle)
+        fragments = [fragments, num2str(this.m_angle)];
+      end
+
+      if ~isempty(this.m_back_angle)
+        fragments = [fragments, num2str(this.m_back_angle)];
+      end
+
+      if length(fragments) > 1
+        str = sprintf('size %s', strjoin(fragments, ', '));
       end
     end
   end

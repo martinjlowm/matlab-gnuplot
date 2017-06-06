@@ -132,7 +132,11 @@ classdef Key < gnuplot.Copyable
 
         position = this.m_position.toString();
         if ~isempty(position)
-          fragments = [fragments, sprintf('at %s', position)];
+          if this.m_position.isCoordinates()
+            position = sprintf('at %s', position);
+          end
+
+          fragments = [fragments, position];
         end
 
         if ~isempty(this.m_anchor)

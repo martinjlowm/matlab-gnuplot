@@ -36,7 +36,7 @@ classdef DataStats < gnuplot.Copyable
 
 
   %% Constructors
-  methods (Access = ?gnuplot.Gnuplot)
+  methods (Access = ?gnuplot.ElementCreator)
     function this = DataStats(varargin)
       this.m_file = gnuplot.DataFile(varargin{:});
     end

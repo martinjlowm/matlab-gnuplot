@@ -78,8 +78,13 @@ classdef Gnuplot < gnuplot.ElementCreator
       if gnuplot.Gnuplot.CheckCallee()
         str = this.terminal;
       else
-        str = sprintf('Terminal is "%s" with options: %s', ...
-                      this.terminal.get(), this.terminal.getOptions());
+        options = this.terminal.getOptions();
+        if ~isempty(options)
+          options = sprintf(' with options: %s', options);
+        end
+
+        str = sprintf('Terminal is "%s"%s', ...
+                      this.terminal.get(), options);
       end
     end
 
@@ -145,16 +150,18 @@ classdef Gnuplot < gnuplot.ElementCreator
 
   %% Other methods
   methods
-    function output = execute(this, debug_flag)
+    function commands = buildCommands(this)
       fragments = {};
 
       % Terminal
       fragments = [fragments, this.terminal.toString()];
 
       % Output
-      fragments = [fragments, ...
-                   sprintf('set output "%s"', this.output.toString())];
-
+      file_output = this.output.toString();
+      if ~isempty(file_output)
+        fragments = [fragments, ...
+                     sprintf('set output "%s"', file_output)];
+      end
 
       % Stats
       fragments = [fragments, ...
@@ -175,6 +182,10 @@ classdef Gnuplot < gnuplot.ElementCreator
       fragments = [fragments, ...
                    gnuplot.Gnuplot.CollectFragments([this.m_line_styles{:}])];
 
+      % Arrow styles
+      fragments = [fragments, ...
+                   gnuplot.Gnuplot.CollectFragments([this.m_arrow_styles{:}])];
+
       % Labels
       fragments = [fragments, ...
                    gnuplot.Gnuplot.CollectFragments(this.m_labels)];
@@ -185,11 +196,19 @@ classdef Gnuplot < gnuplot.ElementCreator
 
       % Ranges and plot elements
       ranges = gnuplot.Gnuplot.CollectFragments(this.m_ranges, ' ');
+      if ~isempty(ranges)
+        ranges = [ranges, ' '];
+      end
       plots = gnuplot.Gnuplot.CollectFragments(this.m_plot_elements, ', ');
 
       fragments = [fragments, sprintf('plot %s%s', ranges, plots)];
 
       commands = strjoin(fragments, '\n');
+    end
+
+    function output = execute(this, debug_flag)
+      commands = this.buildCommands();
+
       if ~logical(exist('debug_flag', 'var')) || ~logical(debug_flag)
         if this.preparePath()
           file = this.output.toString();
@@ -197,6 +216,7 @@ classdef Gnuplot < gnuplot.ElementCreator
             gnuplot.log('Writing output to file: `%s'' using %s terminal', ...
                         file, this.terminal.get());
           end
+
           this.invoke(commands);
         else
           return
