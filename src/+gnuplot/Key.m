@@ -120,6 +120,10 @@ classdef Key < gnuplot.Copyable
       this.m_state = 'on';
     end
 
+    function disable(this)
+      this.m_state = 'off';
+    end
+
     function str = toString(this)
       fragments = {};
 
