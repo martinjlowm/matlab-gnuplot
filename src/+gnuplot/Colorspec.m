@@ -64,7 +64,7 @@ classdef Colorspec < gnuplot.Copyable
   %% Setters
   methods
     function set(this, value, palette_type)
-      if gnuplot.is_color(value) || this.is_hex_value(value)
+      if gnuplot.is_color(value) || gnuplot.is_hex_color(value)
         this.m_type = 'rgbcolor';
       elseif isnumeric(value) && (0 <= value && value <= 1)
         % TODO: Reconsider this
