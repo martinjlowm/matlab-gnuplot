@@ -26,79 +26,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %}
 
-classdef LineStyle < gnuplot.Copyable
+classdef LineType < gnuplot.LineStyle
 
-  properties (Access = ?gnuplot.Copyable)
-    m_index;
-
-    m_line_type;
-    m_line_color;
-    m_line_width;
-    m_point_type;
-    m_point_size;
-    m_point_interval;
-    m_dash_type;
-    m_palette;
-  end
-
-
-  %% Constructors
+%% Constructors
   methods
-    function this = LineStyle(index)
-      this.m_index = index;
-
-      this.m_line_type = index;
-      this.m_line_color = gnuplot.Colorspec();
-      this.m_line_width = '';
-      this.m_point_type = '';
-      this.m_point_size = '';
-      this.m_point_interval = '';
-      this.m_dash_type = '';
-      this.m_palette = '';
-    end
-  end
-
-
-  %% Getters
-  methods
-    function index = getIndex(this)
-      index = this.m_index;
-    end
-  end
-
-
-  %% Setters
-  methods
-    function setLineType(this, type_or_color)
-      if isa(type_or_color, 'double')
-        this.m_line_type = type_or_color;
-      else
-        this.setLineColor(type_or_color)
-      end
-    end
-
-    function setColor(this, color)
-      this.m_line_color.set(color);
-    end
-
-    function setWidth(this, width)
-      this.m_line_width = width;
-    end
-
-    function setPointType(this, type)
-      this.m_point_type = type;
-    end
-
-    function setPointSize(this, size)
-      this.m_point_size = size;
-    end
-
-    function setPointInterval(this, interval)
-      this.m_point_interval = interval;
-    end
-
-    function setDashType(this, type)
-      this.m_dash_type = type;
+    function this = LineType(index)
+      this@gnuplot.LineStyle(index);
     end
   end
 
@@ -137,11 +70,7 @@ classdef LineStyle < gnuplot.Copyable
     function str = toString(this)
       fragments = {};
 
-      fragments = [fragments, sprintf('set style line %d', this.m_index)];
-
-      if ~isempty(this.m_line_type)
-        fragments = [fragments, sprintf('linetype %d', this.m_line_type)];
-      end
+      fragments = [fragments, sprintf('set linetype %d', this.m_index)];
 
       fragments = [fragments, this.collectFragments()];
 

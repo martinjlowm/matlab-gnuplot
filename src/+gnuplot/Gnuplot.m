@@ -178,6 +178,10 @@ classdef Gnuplot < gnuplot.ElementCreator
       % Key
       fragments = [fragments, this.m_key.toString()];
 
+      % Line types
+      fragments = [fragments, ...
+                   gnuplot.Gnuplot.CollectFragments([this.m_line_types{:}])];
+
       % Line styles
       fragments = [fragments, ...
                    gnuplot.Gnuplot.CollectFragments([this.m_line_styles{:}])];

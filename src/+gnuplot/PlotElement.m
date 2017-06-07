@@ -101,6 +101,14 @@ classdef PlotElement < gnuplot.Copyable
       this.m_line_style = index;
     end
 
+    function setLineType(this, index)
+      if isa(index, 'gnuplot.LineType')
+        index = index.getIndex();
+      end
+
+      this.m_line_style = index;
+    end
+
     function setStyle(this, style)
       this.m_style.set(style);
     end

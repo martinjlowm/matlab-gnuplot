@@ -34,6 +34,7 @@ classdef ElementCreator < gnuplot.Copyable
 
     m_arrow_styles;
     m_line_styles;
+    m_line_types;
     m_data_stats;
 
     m_labels;
@@ -54,6 +55,7 @@ classdef ElementCreator < gnuplot.Copyable
 
       this.m_arrow_styles = {};
       this.m_line_styles = {};
+      this.m_line_types = {};
       this.m_data_stats = gnuplot.DataStats.empty();
 
       this.m_labels = gnuplot.Label.empty();
@@ -116,6 +118,10 @@ classdef ElementCreator < gnuplot.Copyable
 
     function style = getLineStyle(this, index)
       style = this.getStyle('m_line_styles', @gnuplot.LineStyle, index);
+    end
+
+    function style = getLineType(this, index)
+      style = this.getStyle('m_line_types', @gnuplot.LineType, index);
     end
 
     function plot_element = plot(this, varargin)

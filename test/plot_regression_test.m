@@ -17,7 +17,7 @@ style_point = gpl.getLineStyle(1);
 style_point.setPointType(2);
 
 style_fit = gpl.getLineStyle(2);
-style_fit.setLineWidth(2);
+style_fit.setWidth(2);
 
 style_eq = gpl.getLineStyle(4);
 style_eq.setDashType(3);

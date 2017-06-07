@@ -10,7 +10,7 @@ from.setAlignment('right');
 
 to = gpl.createLabel();
 to.setText('This is a label pointed to');
-to.setPosition(5, 2);
+to.setPosition('graph', 0.5, 'graph', 0.8);
 to.setOffset(1);
 
 arrow = gpl.createArrow();
@@ -21,7 +21,7 @@ gpl.plot('x');
 
 output = gpl.execute(true);
 
-shouldExistIn('set arrow 1 from 3, 1, 0 to 5, 2, 0', output);
+shouldExistIn('set arrow 1 from 3, 1, 0 to graph 0.5, graph 0.8, 0', output);
 
 % Test arrow style
 arrow_style = gpl.getArrowStyle(1);
@@ -31,4 +31,4 @@ gpl.plot('x');
 
 output = gpl.execute(true);
 
-shouldExistIn('set style arrow 1 from 3, 1, 0 to 5, 2, 0', output);
+shouldExistIn('set style arrow 1 backhead', output);
