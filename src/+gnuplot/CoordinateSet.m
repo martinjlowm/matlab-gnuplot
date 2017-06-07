@@ -50,21 +50,23 @@ classdef CoordinateSet < gnuplot.Copyable
       assert((nargin >= 2) && (nargin <= 6), ...
              'Usage: {<system>} <x>, {<system>} <y> {,{<system>} <z>}');
 
-      i = 1;
-      while i < nargin
-        arg = varargin{i};
+      arg_idx = 1;
+      coord_idx = 1;
+      while arg_idx < nargin
+        arg = varargin{arg_idx};
         if ischar(arg)
-          coord = varargin{i + 1};
-          assert(isnumeric(coord), 'Coordinate must be numeric!');
+          coord = varargin{arg_idx + 1};
+          gnuplot.assert(isnumeric(coord), 'Coordinate must be numeric!');
 
-          this.m_coords{i}.set(arg, coord);
+          this.m_coords{coord_idx}.set(arg, arg, coord);
           incr = 2;
         else
-          this.m_coords{i}.set(arg);
+          this.m_coords{coord_idx}.set(arg);
           incr = 1;
         end
 
-        i = i + incr;
+        arg_idx = arg_idx + incr;
+        coord_idx = coord_idx + 1;
       end
     end
   end
