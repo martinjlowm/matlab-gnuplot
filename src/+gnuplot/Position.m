@@ -46,7 +46,7 @@ classdef Position < gnuplot.Copyable
     function set(this, varargin)
       gnuplot.assert(nargin > 1, 'Not enough inputs given!');
 
-      if ~isa(varargin{1}, 'char')
+      if nargin > 2
         this.m_value = gnuplot.CoordinateSet();
         this.m_value.set(varargin{:});
       else
